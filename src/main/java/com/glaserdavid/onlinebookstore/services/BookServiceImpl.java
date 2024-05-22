@@ -20,11 +20,12 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<Book> getAllBooks(Integer page, Integer size) throws BadRequestException {
+        if (page < 1 || size < 1) {
+            throw new BadRequestException("Page number and size must be greater than 0");
+        }
         try {
             int offset = (page - 1) * size;
             return bookRepository.findAllPaginate(size, offset);
-        } catch (IndexOutOfBoundsException e) {
-            throw new BadRequestException("Invalid page number");
         } catch (Exception e) {
             throw new BadRequestException("Unable to retrieve books");
         }

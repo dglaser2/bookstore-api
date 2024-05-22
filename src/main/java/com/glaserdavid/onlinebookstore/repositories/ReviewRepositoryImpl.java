@@ -44,7 +44,11 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public List<Review> findReviewsByBookId(Integer bookId) {
         try {
-            return jdbcTemplate.query(SQL_FIND_BY_BOOK_ID, new Object[]{bookId}, reviewRowMapper);
+            List<Review> reviews = jdbcTemplate.query(SQL_FIND_BY_BOOK_ID, new Object[]{bookId}, reviewRowMapper);
+            if (reviews.isEmpty()) {
+                throw new ResourceNotFoundException("No reviews found for book id " + bookId);
+            }
+            return reviews;
         } catch (Exception e) {
             throw new ResourceNotFoundException("No reviews found for book id " + bookId);
         }
