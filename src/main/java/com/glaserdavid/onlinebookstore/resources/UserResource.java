@@ -5,6 +5,7 @@ import com.glaserdavid.onlinebookstore.domain.User;
 import com.glaserdavid.onlinebookstore.services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ public class UserResource {
     @Autowired
     UserService userService;
 
+    @Operation(summary = "Login existing user")
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
         String username = (String) userMap.get("username");
@@ -32,6 +34,7 @@ public class UserResource {
         return ResponseEntity.ok(generateJWTToken(user));
     }
 
+    @Operation(summary = "Register new user")
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
         String username = (String) userMap.get("username");
