@@ -6,7 +6,7 @@ The Online Book Store API is a RESTful service for managing an online bookstore.
 
 ## Features
 
-- User registration and authentication (JWT-based)
+- User registration with password hashing and JWT-based authentication
 - CRUD operations for books, orders, and reviews
 - Integration with PostgreSQL for data persistence
 - API documentation using Swagger (SpringDoc)
