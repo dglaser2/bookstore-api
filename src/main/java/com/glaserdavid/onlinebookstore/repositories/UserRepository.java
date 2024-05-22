@@ -9,7 +9,7 @@ public interface UserRepository {
 
     User findByEmailAndPassword(String email, String password) throws AuthException;
 
-    Integer getCountyByEmail(String email);
+    Integer getCountByEmail(String email);
 
     User findById(Integer userId);
 }

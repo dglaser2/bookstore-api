@@ -58,7 +58,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Integer getCountyByEmail(String email) {
+    public Integer getCountByEmail(String email) {
         return jdbcTemplate.queryForObject(SQL_COUNT_BY_EMAIL, new Object[]{email}, Integer.class);
     }
 

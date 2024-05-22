@@ -20,6 +20,8 @@ public class UserServiceImpl implements UserService {
     public User validateUser(String username, String email, String password) throws AuthException {
         if (email != null)
             email = email.toLowerCase();
+        else
+            throw new AuthException("Email required");
         return userRepository.findByEmailAndPassword(email, password);
     }
 
@@ -30,7 +32,7 @@ public class UserServiceImpl implements UserService {
             email = email.toLowerCase();
         if (!pattern.matcher(email).matches())
             throw new AuthException("Invalid email");
-        Integer count = userRepository.getCountyByEmail(email);
+        Integer count = userRepository.getCountByEmail(email);
         if (count > 0)
             throw new AuthException("Email already in use");
         Integer userId = userRepository.create(username, email, password);
