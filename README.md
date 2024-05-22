@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Online Book Store API is a RESTful service for managing an online bookstore. It provides endpoints for managing users, books, orders, and reviews. The API is built using Spring Boot and follows a layered architecture with controllers, services, and repositories. It was initialized with [start.spring.io](start.spring.io).
+The Online Book Store API is a RESTful service for managing an online bookstore. It provides endpoints for managing users, books, orders, and reviews. The API is built using Spring Boot and follows a layered architecture with controllers, services, and repositories. It was initialized using [Spring initializer](https://start.spring.io/).
 
 ## Features
 
