@@ -13,12 +13,12 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Collections;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
-    private static final String SQL_CREATE = "INSERT INTO users (username, email, password) VALUES " +
-            "(?, ?, ?)";
+    private static final String SQL_CREATE = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
     private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(*) FROM users WHERE email = ?";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM users WHERE user_id = ?";
     private static final String SQL_FIND_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
@@ -67,6 +67,10 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId}, userRowMapper);
     }
 
-    private RowMapper<User> userRowMapper = (rs, rowNum) -> new User(rs.getInt("user_id"), rs.getString("username"),
-            rs.getString("email"), rs.getString("password"));
+    private RowMapper<User> userRowMapper = (rs, rowNum) -> new User(
+            rs.getInt("user_id"),
+            rs.getString("username"),
+            rs.getString("email"),
+            rs.getString("password")
+    );
 }
