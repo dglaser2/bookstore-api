@@ -37,7 +37,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             }, keyHolder);
             return (Integer) keyHolder.getKeys().get("review_id");
         } catch (Exception e) {
-            throw new BadRequestException("Invalid review details");
+            throw new BadRequestException("Invalid review entry");
         }
     }
 

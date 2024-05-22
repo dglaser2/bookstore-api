@@ -19,15 +19,27 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review createReview(Review review) throws BadRequestException {
-        Integer reviewId = reviewRepository.create(review);
-        return reviewRepository.findReviewsByBookId(review.getBookId()).stream()
-                .filter(r -> r.getReviewId().equals(reviewId))
-                .findFirst()
-                .orElseThrow(() -> new BadRequestException("Review not created"));
+        try {
+            Integer reviewId = reviewRepository.create(review);
+            return reviewRepository.findReviewsByBookId(review.getBookId()).stream()
+                    .filter(r -> r.getReviewId().equals(reviewId))
+                    .findFirst()
+                    .orElseThrow(() -> new BadRequestException("Review not created"));
+        } catch (Exception e) {
+            throw new BadRequestException("Failed to create review: " + e.getMessage());
+        }
     }
 
     @Override
     public List<Review> getReviewsByBookId(Integer bookId) throws ResourceNotFoundException {
-        return reviewRepository.findReviewsByBookId(bookId);
+        try {
+            List<Review> reviews = reviewRepository.findReviewsByBookId(bookId);
+            if (reviews.isEmpty()) {
+                throw new ResourceNotFoundException("No reviews found for book id " + bookId);
+            }
+            return reviews;
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Failed to retrieve reviews for book id " + bookId + ": " + e.getMessage());
+        }
     }
 }

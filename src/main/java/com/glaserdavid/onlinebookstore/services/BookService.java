@@ -12,5 +12,5 @@ public interface BookService {
 
     Book getBookById(Integer bookId) throws ResourceNotFoundException;
 
-    List<Book> searchBooks(String query);
+    List<Book> searchBooks(String query) throws BadRequestException;
 }

@@ -25,12 +25,20 @@ public class BookServiceImpl implements BookService{
             return bookRepository.findAllPaginate(size, offset);
         } catch (IndexOutOfBoundsException e) {
             throw new BadRequestException("Invalid page number");
+        } catch (Exception e) {
+            throw new BadRequestException("Unable to retrieve books");
         }
     }
 
     @Override
     public Book getBookById(Integer bookId) throws ResourceNotFoundException {
-        return bookRepository.findById(bookId);
+        try {
+            return bookRepository.findById(bookId);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Book not found with id " + bookId);
+        } catch (Exception e) {
+            throw new BadRequestException("Unable to fetch book details");
+        }
     }
 
     @Override

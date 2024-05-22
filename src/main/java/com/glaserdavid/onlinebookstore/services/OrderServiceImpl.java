@@ -17,12 +17,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(Integer orderId) throws ResourceNotFoundException {
-        return orderRepository.getOrderById(orderId);
+        try {
+            return orderRepository.getOrderById(orderId);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Order with id " + orderId + " not found");
+        }
     }
 
     @Override
     public Order createOrder(Order order) throws BadRequestException {
-        Integer orderId = orderRepository.create(order);
-        return orderRepository.getOrderById(orderId);
+        try {
+            Integer orderId = orderRepository.create(order);
+            return orderRepository.getOrderById(orderId);
+        } catch (BadRequestException e) {
+            throw new BadRequestException("Invalid order details: " + e.getMessage());
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Order created but failed to retrieve with id " + order.getOrderId());
+        }
     }
 }

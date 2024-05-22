@@ -1,6 +1,8 @@
 package com.glaserdavid.onlinebookstore.repositories;
 
 import com.glaserdavid.onlinebookstore.domain.Book;
+import com.glaserdavid.onlinebookstore.exceptions.BadRequestException;
+import com.glaserdavid.onlinebookstore.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,16 +26,28 @@ public class BookRepositoryImpl implements BookRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<Book> findAllPaginate(int limit, int offset) {
-        return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{limit, offset}, bookRowMapper);
+        try {
+            return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{limit, offset}, bookRowMapper);
+        } catch (Exception e) {
+            throw new BadRequestException("Error retrieving paginated list of books");
+        }
     }
 
     public Book findById(Integer bookId) {
-        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bookId}, bookRowMapper);
+        try {
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bookId}, bookRowMapper);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Book with id " + bookId + " not found");
+        }
     }
 
     public List<Book> search(String query) {
-        String searchQuery = "%" + query + "%";
-        return jdbcTemplate.query(SQL_SEARCH, new Object[]{searchQuery, searchQuery, searchQuery}, bookRowMapper);
+        try {
+            String searchQuery = "%" + query + "%";
+            return jdbcTemplate.query(SQL_SEARCH, new Object[]{searchQuery, searchQuery, searchQuery}, bookRowMapper);
+        } catch (Exception e) {
+            throw new BadRequestException("Error searching for books with query: " + query);
+        }
     }
 
     private final RowMapper<Book> bookRowMapper = (rs, rowNum) -> new Book(
