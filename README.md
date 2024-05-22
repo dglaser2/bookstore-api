@@ -36,7 +36,7 @@ The Online Book Store API is a RESTful service for managing an online bookstore.
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/online-book-store-api.git
+    git clone https://github.com/dglaser2/bookstore-api.git
     cd online-book-store-api
     ```
 
