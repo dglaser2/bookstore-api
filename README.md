@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Online Book Store API is a RESTful service for managing an online bookstore. It provides endpoints for managing users, books, orders, and reviews. The API is built using Spring Boot and follows a layered architecture with controllers, services, and repositories.
+The Online Book Store API is a RESTful service for managing an online bookstore. It provides endpoints for managing users, books, orders, and reviews. The API is built using Spring Boot and follows a layered architecture with controllers, services, and repositories. It was initialized with [start.spring.io](start.spring.io).
 
 ## Features
 
@@ -15,14 +15,14 @@ The Online Book Store API is a RESTful service for managing an online bookstore.
 
 - Java 17
 - Spring Boot 3.2.5
-- Spring Security
-- Spring Data JPA
 - PostgreSQL
-- H2 Database (for testing)
 - JWT (JSON Web Tokens)
-- Swagger (SpringDoc)
 - JUnit 5
 - Mockito
+- Spring Security
+- Java Database Connectivity (JDBC)
+- H2 Database (for testing)
+- Swagger (SpringDoc)
 
 ## Getting Started
 
@@ -71,11 +71,9 @@ The Online Book Store API is a RESTful service for managing an online bookstore.
 
 ### Book Endpoints
 
-- **GET /api/books**: Get all books
+- **GET /api/books**: Get all books in a paginated list
 - **GET /api/books/{id}**: Get a book by ID
-- **POST /api/books**: Add a new book (Admin only)
-- **PUT /api/books/{id}**: Update a book (Admin only)
-- **DELETE /api/books/{id}**: Delete a book (Admin only)
+- **GET /api/books/search**: Search for book based on title, author, or description
 
 ### Order Endpoints
 
@@ -86,6 +84,31 @@ The Online Book Store API is a RESTful service for managing an online bookstore.
 
 - **POST /api/reviews**: Add a new review
 - **GET /api/reviews/books/{bookId}**: Get reviews for a specific book
+
+## Project Architecture
+
+The project follows a layered architecture to separate concerns and improve maintainability. In some of these layers, interfaces are implemented by classes ending with Impl, such as UserServiceImpl, or BookRepositoryImpl. These implementation classes contain the actual business logic and call methods specified in the interfaces to perform operations.
+
+### Domain Layer
+The domain layer contains the core entities of the application. These are the classes that represent the data and business rules of the application.
+
+- Entities: Classes such as User, Book, Order, and Review that map to database tables.
+### Repository Layer
+The repository layer is responsible for data access and persistence. It interacts with the database using the JDBC interface.
+
+- Repositories: Interfaces like UserRepository, BookRepository, OrderRepository, and ReviewRepository that provide CRUD operations.
+### Service Layer
+The service layer contains the business logic of the application. It interacts with the repository layer to perform operations and handle business rules.
+
+- Services: Classes such as UserService, BookService, OrderService, and ReviewService that contain methods to perform business operations.
+### Resource Layer (Controller Layer)
+The resource layer (also known as the controller layer) handles HTTP requests and responses. It exposes endpoints for the API and interacts with the service layer.
+
+- Controllers: Classes such as UserResource, BookResource, OrderResource, and ReviewResource that map HTTP requests to service methods.
+### Security Layer
+The security layer handles authentication and authorization using Spring Security and JWT.
+
+- Security Configurations: Classes such as AuthFilter that define security rules and JWT token handling.
 
 ## Running Tests
 
